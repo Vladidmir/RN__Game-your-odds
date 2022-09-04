@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, Alert, StyleSheet, FlatList } from "react-native";
+import {
+  View,
+  Alert,
+  StyleSheet,
+  FlatList,
+  useWindowDimensions,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import Title from "../components/Title.js";
@@ -18,6 +24,7 @@ const GameScreen = ({ userNumber, gameOverHandler }) => {
   const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = React.useState(initialGuess);
   const [guessRounds, setGuessRounds] = React.useState([initialGuess]);
+  const { width, height } = useWindowDimensions();
 
   React.useEffect(() => {
     if (currentGuess === userNumber) {
@@ -56,9 +63,8 @@ const GameScreen = ({ userNumber, gameOverHandler }) => {
     setGuessRounds((prevGuessRounds) => [...prevGuessRounds, newRndNumber]);
   };
 
-  return (
-    <View style={s.screen}>
-      <Title>Opponent's Guess</Title>
+  let content = (
+    <>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card>
         <InstructionText style={s.extraTextStyle}>
@@ -73,6 +79,29 @@ const GameScreen = ({ userNumber, gameOverHandler }) => {
           </PrimaryButton>
         </View>
       </Card>
+    </>
+  );
+
+  if (width > 500) {
+    content = (
+      <>
+        <View style={[s.buttonContainer, { alignItems: "center" }]}>
+          <PrimaryButton onPress={() => nextGuessHandler("lower")}>
+            <Ionicons name="md-remove" size={24} />
+          </PrimaryButton>
+          <NumberContainer>{currentGuess}</NumberContainer>
+          <PrimaryButton onPress={() => nextGuessHandler("greater")}>
+            <Ionicons name="md-add" size={24} />
+          </PrimaryButton>
+        </View>
+      </>
+    );
+  }
+
+  return (
+    <View style={s.screen}>
+      <Title>Opponent's Guess</Title>
+      {content}
       <View style={s.listContainer}>
         <FlatList
           keyExtractor={(item) => item}
@@ -94,6 +123,7 @@ const s = StyleSheet.create({
     flex: 1,
     padding: 24,
     marginTop: 10,
+    alignItems: "center",
   },
   extraTextStyle: {
     marginBottom: 6,

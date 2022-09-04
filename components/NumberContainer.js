@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import Colors from "../utils/colors";
+import { deviceWidth } from "../utils/demensions";
 const NumberContainer = ({ children }) => {
   return (
     <View style={s.container}>
@@ -14,8 +15,8 @@ const s = StyleSheet.create({
     alignItems: "center",
     borderWidth: 4,
     borderColor: Colors.accent500,
-    padding: 24,
-    margin: 24,
+    padding: deviceWidth < 380 ? 12 : 24,
+    margin: deviceWidth < 380 ? 20 : 30,
     borderRadious: 8,
   },
   numberText: {

@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleSheet, ImageBackground, SafeAreaView } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
 
 import StartGameScreen from "./screens/StartGameScreen.js";
 import GameScreen from "./screens/GameScreen.js";
 import GameOverScreen from "./screens/GameOverScreen.js";
-import GuessLogItem from "./components/GuessLogItem.js";
 
 import AppLoading from "expo-app-loading";
 import Colors from "./utils/colors.js";
@@ -58,6 +58,7 @@ export default function App() {
   }
   return (
     <>
+      <StatusBar style="light" />
       <LinearGradient
         colors={[Colors.primary700, Colors.accent500]}
         style={s.rootScreen}
